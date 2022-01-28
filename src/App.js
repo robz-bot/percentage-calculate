@@ -12,21 +12,18 @@ function App() {
   };
 
   const report = (val) => {
-    if (val >= 90) return "Success";
-    if (val >= 70) return "Average";
-    if (val >= 50) return "Pass";
-    if (val <= 30) return "Fail";
-    return "asd";
+    if (val >= 90 && val <= 100) return "Success";
+    if (val >= 70 && val < 90) return "Average";
+    if (val > 30 && val < 70) return "Pass";
+    if (val >= 0 && val <= 30) return "Fail";
   };
 
   const Results = () => (
-    <div id="results">
+    <div>
       {JSONDATA.filter((val) => {
         if (val.id === parseInt(searchTerm)) {
-          console.log(val);
           return val;
         } else {
-          console.log(val);
           return null;
         }
       }).map((val, key) => {
@@ -70,9 +67,13 @@ function App() {
             <div className="progress">
               <div
                 className={`progress-bar progress-bar-striped 
-                  ${total(val) > 90 && total(val) <= 100 ? "bg-success" : ""}
-                  ${total(val) > 70 && total(val) <= 90 ? "bg-primary" : ""}
-                  ${total(val) > 30 && total(val) <= 70 ? "bg-warning" : ""}
+                  ${total(val) >= 90 && total(val) <= 100 ? "bg-success" : ""}
+                  ${total(val) >= 70 && total(val) < 90 ? "bg-primary" : ""}
+                  ${
+                    total(val) > 30 && total(val) < 70
+                      ? "bg-warning text-dark"
+                      : ""
+                  }
                   ${total(val) >= 0 && total(val) <= 30 ? "bg-danger" : ""}`}
                 role="progressbar"
                 style={{
@@ -94,7 +95,7 @@ function App() {
 
   return (
     <div className="App container row my-4">
-      <div className="col-sm-6">
+      <div className="col-lg-6">
         <h5>Calculate the percentage level of a Person's mark</h5>
         <input
           type="text"
